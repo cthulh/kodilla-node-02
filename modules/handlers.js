@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 var params = {
   upload: {
     log: 'Rozpoczynam obsługę żądania upload.',
@@ -5,7 +7,7 @@ var params = {
   },
   welcome: {
     log: 'Rozpoczynam obsługę żądania welcome.',
-    write: 'Witaj na stronie startowej!'
+    write: 'templates/start.html'
   },
   error: {
     log: 'Nie wiem co robić.',
@@ -21,8 +23,11 @@ function upload(request, response) {
 
 function welcome(request, response) {
     console.log(params.welcome.log);
-    response.write(params.welcome.write);
-    response.end();
+    fs.readFile(params.welcome.write, function(err, html) {
+      response.writeHead(200, {"Content-Type": "text/html; charset=utf-8"});
+      response.write(html);
+      response.end();
+    });
 }
 
 function error(request, response) {
