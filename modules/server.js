@@ -18,7 +18,7 @@ function start() {
     console.log((params.messages.server.receiving + request.url).green);
 
     response.writeHead(200, {"Content-Type": "text/plain"});
-
+    
     switch (request.url) {
       case '/':
       case '/start':
