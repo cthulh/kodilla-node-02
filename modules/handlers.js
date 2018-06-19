@@ -4,7 +4,7 @@ var formidable = require('formidable');
 var params = {
   upload: {
     log: 'Processing upload request.',
-    write: 'Received image:<br/><img src="/show" />',
+    write: 'templates/upload.html',
     path: 'uploads/'
   },
   welcome: {
@@ -27,9 +27,11 @@ function upload(request, response) {
     form.parse(request, function(error, fields, files) {
       fs.renameSync(files.upload.path, params.upload.path + files.upload.name);
       params.show.uploaded = files.upload.name;
-      response.writeHead(200, {'Content-Type': 'text/html'});
-      response.write(params.upload.write);
-      response.end();
+      fs.readFile(params.upload.write, function(err, html) {
+        response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        response.write(html);
+        response.end();
+      });
     });
 }
 
