@@ -16,10 +16,10 @@ function start() {
 
   function onRequest(request, response) {
     console.log((params.messages.server.receiving + request.url).green);
-
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    
     switch (request.url) {
+      case '/styles.css':
+        handlers.loadCss(request, response);
+        break;
       case '/':
       case '/start':
         handlers.welcome(request, response);

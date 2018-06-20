@@ -18,6 +18,10 @@ var params = {
   show: {
     log: 'Processing uploaded picture...',
     uploaded: ''
+  },
+  cssFile: {
+    log: 'Loading css file.',
+    path: 'css/styles.css'
   }
 }
 
@@ -46,6 +50,7 @@ function welcome(request, response) {
 
 function error(request, response) {
     console.log(params.error.log);
+    response.writeHead(200, {"Content-Type": "text/plain"});
     response.write(params.error.write);
     response.end();
 }
@@ -59,9 +64,19 @@ function show(request, response) {
   });
 }
 
+function loadCss(request, response) {
+  console.log(params.cssFile.log);
+  fs.readFile(params.cssFile.path, function(error, file) {
+    response.writeHead(200, {'Content-Type': 'text/css'});
+    response.write(file);
+    response.end();
+  });
+}
+
 module.exports = {
   upload: upload,
   welcome: welcome,
   error: error,
-  show: show
+  show: show,
+  loadCss: loadCss
 }
